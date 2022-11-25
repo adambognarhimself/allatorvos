@@ -71,12 +71,12 @@ ListaVizsgalat* vizsgalatBeszur(ListaVizsgalat* list, Vizsgalat v) {
 void torles() {
 	printf("Torolni kivant allat neve: ");
 	char* allat = (char*)malloc(201 * sizeof(char));
-	scanf("%s", allat);
+	scanf(" %s", allat);
 	allat = atmeretezes(allat);
 
 	printf("\nHozza tartozo tulajdonos szemelyi igazolvany szama: ");
 	char* szemelyi = (char*)malloc(201 * sizeof(char));
-	scanf("%s", szemelyi);
+	scanf(" %s", szemelyi);
 	szemelyi = atmeretezes(szemelyi);
 
 	ListaAllat *allatLista = NULL;
@@ -204,7 +204,7 @@ void torles() {
 	buffer = (char*)malloc(300 * sizeof(char));
 	if (f == NULL)
 	{
-		perror("Sikertelen megnyitás");
+		perror("Sikertelen megnyitÃ¡s");
 	}
 	else
 	{
@@ -311,19 +311,10 @@ void torles() {
 	fclose(f);
 
 	
-	if (remove("allat.txt") == 0)
-	{
-		printf("allat.txt torole");
-	}
-	else printf("nem toroltuk allat.txt");
+	remove("allat.txt");
+	
 
-	if (remove("vizsgalat.txt") == 0)
-	{
-		printf("vizgsa.txt torole");
-	}
-	else { printf("nem toroltuk vizsga.txt");
-	printf("");
-	}
+	remove("vizsgalat.txt");
 
 
 	for (ListaAllat* p = allatLista; p != NULL; p = p->next)
@@ -333,15 +324,14 @@ void torles() {
 		f = fopen("allat.txt", "a");
 		if (f == NULL)
 		{
-			perror("Sikertelen megnyitás");
+			perror("Sikertelen megnyitÃ¡s");
 		}
 		else {
-			if (allatLista->a.tulajID != szemelyi) {
-				if (allatLista->a.allatNev != allat)
-				{
+			if (strcmp(p->a.tulajID, szemelyi) != 0 || (strcmp(p->a.allatNev, allat) != 0)){ 
+				
 
-					fprintf(f, "%s;%s;%s;%s\n", allatLista->a.allatNev, allatLista->a.fajta, allatLista->a.oltasDatum, allatLista->a.tulajID);
-				}
+					fprintf(f, "%s;%s;%s;%s\n", p->a.allatNev, p->a.fajta, p->a.oltasDatum, p->a.tulajID);
+				
 			}
 		}
 
@@ -357,15 +347,15 @@ void torles() {
 		f = fopen("vizsgalat.txt", "a");
 		if (f == NULL)
 		{
-			perror("Sikertelen megnyitás");
+			perror("Sikertelen megnyitÃ¡s");
 		}
 		else {
-			if (vizsgalatLista->v.tulajID != szemelyi) {
-				if (vizsgalatLista->v.allatNeve != allat)
-				{
+			if (strcmp(p->v.tulajID,szemelyi) != 0 || strcmp(p->v.allatNeve, allat) != 0) {
+				
+					fprintf(f, "%s;%s;%s;%s;%s\n", p->v.viszgalatTipus, p->v.vizsgalatDatum, p->v.tulajID, p->v.megjegyzes, p->v.allatNeve);
 
-					fprintf(f, "%s;%s;%s;%s;%s\n", vizsgalatLista->v.viszgalatTipus, vizsgalatLista->v.vizsgalatDatum, vizsgalatLista->v.tulajID, v.megjegyzes, vizsgalatLista->v.allatNeve);
-				}
+					
+				
 			}
 		}
 
